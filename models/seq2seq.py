@@ -23,7 +23,7 @@ class Seq2Seq(nn.Module):
 
         for t in range(1, trg_len):
 
-            output, hidden = self.decoder(input_token, hidden, encoder_outputs)
+            output, hidden, attn_weights = self.decoder(input_token, hidden, encoder_outputs)
 
             outputs[:,t] = output.squeeze(1)
 
@@ -33,4 +33,4 @@ class Seq2Seq(nn.Module):
 
             input_token = trg[:,t].unsqueeze(1) if teacher_force else top1
 
-        return outputs
+        return outputs, attn_weights
